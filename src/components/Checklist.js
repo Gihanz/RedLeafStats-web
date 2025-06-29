@@ -96,7 +96,7 @@ export default function Checklist() {
         </div>
       </div>
 
-      {/* Add New Item */}
+      {/* Add New Items */}
       <div className="space-y-2">
         <input
           className="w-full border p-2 bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600"
