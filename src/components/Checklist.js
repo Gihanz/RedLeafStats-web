@@ -57,7 +57,7 @@ export default function Checklist() {
     }
   };
 
-  // Delete item
+  // Delete items
   const handleDelete = async (itemId) => {
     try {
       await deleteChecklistItem(user.uid, itemId);
