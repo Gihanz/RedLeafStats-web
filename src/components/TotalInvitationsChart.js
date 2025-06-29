@@ -69,12 +69,15 @@ export default function TotalInvitationsChart() {
     })
     .filter(Boolean); // remove null entries
 
+  const isSmallScreen = typeof window !== "undefined" && window.innerWidth < 768;
+
   const options = {
     tooltip: {
       trigger: "axis",
       axisPointer: { type: "shadow" },
     },
     legend: {
+      type: isSmallScreen ? "scroll" : "plain",
       top: 20,
       textStyle: {
         color: "#888",

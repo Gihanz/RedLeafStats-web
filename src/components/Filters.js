@@ -16,7 +16,7 @@ export default function Filters({
         <select
           value={program}
           onChange={(e) => setProgram(e.target.value)}
-          className="border p-1 dark:bg-gray-700 dark:text-gray-200"
+          className="w-full border p-1 dark:bg-gray-700 dark:text-gray-200"
         >
           {programs.map((p) => (
             <option key={p} value={p}>
