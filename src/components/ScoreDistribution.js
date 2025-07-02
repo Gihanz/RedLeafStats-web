@@ -131,7 +131,16 @@ export default function ScoreDistribution({ program, range }) {
         <BarChart data={data} margin={{ top: 40, right: 20, bottom: 20, left: 20 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="range" stroke="#888" />
-          <YAxis stroke="#888" />
+          <YAxis
+            stroke="#888"
+            label={{
+              value: "Number of Applicants",
+              angle: -90,  
+              position: "insideLeft", 
+              offset: -15,
+              style: { fill: "#888", fontSize: 12 }, 
+            }}
+          />
           <Tooltip content={<CustomTooltip />} />
           <Legend
             onClick={toggleBar}
@@ -146,19 +155,11 @@ export default function ScoreDistribution({ program, range }) {
               x={cutoffRangeLabel}
               stroke="red"
               strokeDasharray="3 3"
-              label={({ viewBox }) => {
-                const { x, width } = viewBox;
-                return (
-                  <text
-                    x={x + width / 2}
-                    y={20}
-                    textAnchor="middle"
-                    fill="red"
-                    fontSize={14}
-                  >
-                    Cutoff CRS: {cutoffScore}
-                  </text>
-                );
+              label={{
+                value: `Cutoff CRS: ${cutoffScore}`,
+                position: "top",
+                fill: "red",
+                fontSize: 12,
               }}
             />
           )}

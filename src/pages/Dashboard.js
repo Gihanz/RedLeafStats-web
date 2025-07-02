@@ -8,6 +8,9 @@ import RecentDraws from "../components/RecentDraws";
 import ScoreDistribution from "../components/ScoreDistribution";
 import TotalInvitationsChart from "../components/TotalInvitationsChart";
 import LatestDrawCard from "../components/LatestDrawCard";
+import CRSHeatmap from "../components/CRSHeatmap";
+import RoundsCount from "../components/RoundsCount";
+import RecentNews from "../components/RecentNews";
 import useRounds from "../hooks/useRounds";
 
 export default function Dashboard() {
@@ -34,27 +37,41 @@ export default function Dashboard() {
       yKeys={yKeys}
     />
 
-    {/* Main Grid Section: Stats + Chart */}
-    <div className="flex flex-col lg:flex-row gap-6">
-  {/* Left Column: Stats + Recent Draws */}
-  <div className="w-full lg:w-[320px] space-y-6 flex-shrink-0">
-    <RoundStats program={program} range={range} yAxisKey={yAxisKey} />
-    <RecentDraws setProgram={setProgram} />
-  </div>
+    {/* Main Grid Section: Chart + Stats */}
+    <div className="flex flex-col lg:flex-row-reverse gap-6">
+      {/* Right Column: Chart (comes first on small screens, left on large) */}
+      <div className="flex-grow">
+        <RoundsChart program={program} range={range} yAxisKey={yAxisKey} />
+      </div>
 
-  {/* Right Column: Chart takes full remaining space */}
-  <div className="flex-grow">
-    <RoundsChart program={program} range={range} yAxisKey={yAxisKey} />
-  </div>
-</div>
+      {/* Left Column: Stats (comes below on small screens, right on large) */}
+      <div className="w-full lg:w-[320px] min-w-0 space-y-6 flex-shrink-0">
+        <RoundStats program={program} range={range} yAxisKey={yAxisKey} />
+        <RecentDraws setProgram={setProgram} />
+      </div>
+    </div>
 
 
     {/* Below Charts */}
     <ScoreDistribution program={program} range={range} />
     <TotalInvitationsChart />
 
-    {/* Checklist moved to bottom */}
-    <Checklist />
+    <RoundsCount program={program} range={range} />
+    <CRSHeatmap program={program} range={range} />
+
+    <div className="flex flex-col lg:flex-row gap-6">
+      {/* Checklist on the left */}
+      <div className="lg:w-[420px] w-full flex-shrink-0">
+        <Checklist />
+      </div>
+
+      {/* RecentNews full width */}
+      <div className="flex-grow w-full">
+        <RecentNews />
+      </div>
+    </div>
+
+
   </div>
 </DashboardLayout>
 

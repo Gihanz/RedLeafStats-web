@@ -75,9 +75,9 @@ export default function Checklist() {
       : 0;
 
   return (
-    <div className="max-w-md mx-auto space-y-6 bg-white dark:bg-gray-900 p-4 w-full overflow-y-auto">
+    <div className="max-w-md mx-auto space-y-6 bg-white dark:bg-gray-800 p-4 w-full overflow-y-auto">
       <h2 className="text-xl font-heading font-bold text-center">
-        📝 PR Checklist
+        📝 Checklist
       </h2>
 
       {/* Progress Bar */}
@@ -116,7 +116,7 @@ export default function Checklist() {
           onClick={handleAdd}
           className="bg-[#26374a] hover:opacity-90 text-white px-4 py-2 w-fit"
         >
-          Add
+          + Add
         </button>
       </div>
 

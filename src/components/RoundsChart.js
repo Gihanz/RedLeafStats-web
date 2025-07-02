@@ -46,6 +46,21 @@ export default function RoundsChart({ program, range, yAxisKey }) {
     pdf.save("chart.pdf");
   };
 
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (!active || !payload || !payload.length) return null;
+    return (
+      <div className="bg-white dark:bg-gray-800 text-black dark:text-white p-3 border border-gray-300 dark:border-gray-600 rounded shadow-lg">
+        <p className="font-semibold">Date: <span className="font-normal">{label}</span></p>
+        {payload.map((entry, index) => (
+          <p key={index} className="font-semibold">
+            {entry.name}: <span className="font-normal">{entry.value}</span>
+          </p>
+        ))}
+      </div>
+    );
+  }
+
+
   return (
     <div className="space-y-4">
 
@@ -65,21 +80,7 @@ export default function RoundsChart({ program, range, yAxisKey }) {
               }}
             />
             <YAxis domain={["auto", "auto"]} />
-            <Tooltip
-              contentStyle={{
-                borderRadius: 8,
-                boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-              }}
-              labelFormatter={(value) => {
-                const [year, month, day] = value.split("-").map(Number);
-                return new Date(year, month - 1, day).toLocaleDateString("en-US", {
-                  weekday: "short",
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                });
-              }}
-            />
+            <Tooltip content={<CustomTooltip />} />
             <Legend layout="horizontal" verticalAlign="top" align="center" />
             <Line
               type={isSpline ? "monotone" : "linear"}
@@ -96,7 +97,7 @@ export default function RoundsChart({ program, range, yAxisKey }) {
       {/* Spline toggle + Export buttons */}
       <div className="flex justify-end gap-4 mb-2 items-center">
         <div className="flex gap-4 mb-2 items-center">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 pr-4">
             <span className="text-sm">Smooth Line</span>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
@@ -112,13 +113,13 @@ export default function RoundsChart({ program, range, yAxisKey }) {
 
           <button
             onClick={exportAsImage}
-            className="px-3 py-1 bg-[#26374a] hover:opacity-90 text-white"
+            className="bg-[#26374a] hover:opacity-90 text-white px-3 py-1 text-sm"
           >
             Export PNG
           </button>
           <button
             onClick={exportAsPDF}
-            className="px-3 py-1 bg-[#26374a] hover:opacity-90 text-white"
+            className="bg-[#26374a] hover:opacity-90 text-white px-3 py-1 text-sm"
           >
             Export PDF
           </button>
