@@ -25,7 +25,7 @@ export default function RoundStats({ program, range, yAxisKey }) {
   const stats = calculateStats(rounds, yAxisKey);
 
   return (
-    <div className="bg-white dark:bg-gray-900 p-4 w-full max-w-xs h-[250px] overflow-y-auto">
+    <div className="bg-white dark:bg-gray-800 p-4 w-full h-[250px] overflow-y-auto">
       <h2 className="text-xl font-heading font-bold text-center mb-4">
         📈 Draw Statistics
       </h2>

@@ -138,8 +138,15 @@ export default function Register() {
           Login
         </a>
       </p>
+      <div className="flex items-center justify-center gap-2 pt-12">
+          <img
+            src="Canada-flag-logo.png"
+            alt="Canada Logo"
+            className="h-6 sm:h-8"
+          />
+        <h1 className="text-xl font-heading font-bold text-center px-5 dark:text-gray-300">RedLeaf Stats</h1>
+        </div>
     </form>
-
 
   );
 }
