@@ -6,16 +6,24 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { Toaster } from "react-hot-toast";
 
 function App() {
-
-
-  
   return (
     <Router>
-      <Toaster position="top-right" reverseOrder={false} />
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          success: {
+            iconTheme: {
+              primary: "#26374a",   // your desired green tick color
+              secondary: "white",  // background behind the tick
+            },
+          },
+        }}
+      />
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard"element={<ProtectedRoute><Dashboard /></ProtectedRoute>}  />
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       </Routes>
     </Router>
   );

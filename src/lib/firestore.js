@@ -5,6 +5,7 @@ import {
   deleteDoc,
   doc,
   updateDoc,
+  setDoc,
   serverTimestamp,
 } from "firebase/firestore";
 import { db } from "../firebase";
@@ -63,4 +64,22 @@ export const updateChecklistItem = async (userId, itemId, updates) => {
 export const deleteChecklistItem = async (userId, itemId) => {
   const ref = doc(db, "users", userId, "checklists", itemId);
   await deleteDoc(ref);
+};
+
+/**
+ * Set or update the user profile document with additional data like fullName, email, consentToEmails, etc.
+ * @param {string} userId - Firebase Auth UID
+ * @param {Object} profileData - e.g. { fullName, email, consentToEmails }
+ */
+export const setUserProfile = async (userId, profileData) => {
+  const ref = doc(db, "users", userId);
+  await setDoc(
+    ref,
+    {
+      ...profileData,
+      updatedAt: serverTimestamp(),
+      createdAt: serverTimestamp(),
+    },
+    { merge: true }
+  );
 };

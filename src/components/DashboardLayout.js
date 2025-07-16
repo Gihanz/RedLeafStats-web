@@ -28,7 +28,7 @@ export default function DashboardLayout({ children }) {
         </div>
         <div className="flex items-center gap-3">
           <ThemeToggle />
-          <div className="text-sm hidden sm:block">{user?.email}</div>
+          <div className="text-sm hidden sm:block">Hi {user?.fullName}!</div>
           <button
             onClick={handleLogout}
             className="bg-[#26374a] hover:opacity-90 text-white px-3 py-1 text-sm"
