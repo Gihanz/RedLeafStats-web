@@ -10,6 +10,8 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 
+export { db };
+
 /**
  * Get all checklist items for a specific user.
  * @param {string} userId - Firebase Auth UID
