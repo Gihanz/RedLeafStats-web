@@ -33,7 +33,7 @@ export default function Filters({
             key={label}
             className={`px-3 py-1 ${
               range === label
-                ? "bg-[#3182ce] text-white"
+                ? "bg-[#26374a] text-white"
                 : "bg-gray-200 dark:bg-gray-700 dark:text-gray-200"
             }`}
             onClick={() => setRange(label)}

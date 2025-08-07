@@ -10,7 +10,7 @@ import {
   Legend,
 } from "recharts";
 import { useMemo, useState } from "react";
-import useRounds from "../hooks/useRounds";
+import useRounds from "../../hooks/useEERounds";
 
 const CRS_FIELDS = [
   { key: "dd17", range: "0-300" },

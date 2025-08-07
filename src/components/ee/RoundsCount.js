@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useEffect, useState } from "react";
-import useRounds from "../hooks/useRounds";
+import useRounds from "../../hooks/useEERounds";
 import ReactECharts from "echarts-for-react";
 import * as echarts from "echarts";
 

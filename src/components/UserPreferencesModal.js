@@ -61,7 +61,7 @@ export default function UserPreferencesModal({ isOpen, onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md w-full max-w-md">
+      <div className="bg-white dark:bg-gray-800 p-6 shadow-md w-full max-w-md">
         <h2 className="text-xl font-bold mb-8 text-center">User Preferences</h2>
         <div className="space-y-4">
           <div>

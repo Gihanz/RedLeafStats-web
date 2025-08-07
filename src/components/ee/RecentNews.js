@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 
 export default function RecentNews() {
   const [htmlContent, setHtmlContent] = useState("");
@@ -16,13 +16,13 @@ export default function RecentNews() {
       const parser = new DOMParser();
       const doc = parser.parseFromString(htmlString, "text/html");
 
-      // ✅ Remove the heading that contains "Notices: Immigration, Refugees and Citizenship Canada"
+      // Remove the heading that contains "Notices: Immigration, Refugees and Citizenship Canada"
       const h1 = doc.querySelector("h1");
       if (h1 && h1.textContent.includes("Notices:") && h1.textContent.includes("Immigration")) {
         h1.remove();
       }
 
-      // ✅ Fix <a> tags: prepend domain and add target/rel
+      // Fix <a> tags: prepend domain and add target/rel
       const anchors = doc.querySelectorAll("a[href^='/']");
       anchors.forEach((a) => {
         a.href = `https://www.canada.ca${a.getAttribute("href")}`;

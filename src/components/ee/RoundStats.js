@@ -1,4 +1,4 @@
-import useRounds from "../hooks/useRounds";
+import useRounds from "../../hooks/useEERounds";
 
 function calculateStats(data, key) {
   const scores = data

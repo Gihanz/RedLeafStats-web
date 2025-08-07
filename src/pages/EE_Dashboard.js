@@ -1,17 +1,17 @@
 import { useState } from "react";
 import DashboardLayout from "../components/DashboardLayout";
-import Checklist from "../components/Checklist";
-import Filters from "../components/Filters";
-import RoundsChart from "../components/RoundsChart";
-import RoundStats from "../components/RoundStats";
-import RecentDraws from "../components/RecentDraws";
-import ScoreDistribution from "../components/ScoreDistribution";
-import TotalInvitationsChart from "../components/TotalInvitationsChart";
-import LatestDrawCard from "../components/LatestDrawCard";
-import CRSHeatmap from "../components/CRSHeatmap";
-import RoundsCount from "../components/RoundsCount";
-import RecentNews from "../components/RecentNews";
-import useRounds from "../hooks/useRounds";
+import Checklist from "../components/ee/Checklist";
+import Filters from "../components/ee/Filters";
+import RoundsChart from "../components/ee/RoundsChart";
+import RoundStats from "../components/ee/RoundStats";
+import RecentDraws from "../components/ee/RecentDraws";
+import ScoreDistribution from "../components/ee/ScoreDistribution";
+import TotalInvitationsChart from "../components/ee/TotalInvitationsChart";
+import LatestDrawCard from "../components/ee/LatestDrawCard";
+import CRSHeatmap from "../components/ee/CRSHeatmap";
+import RoundsCount from "../components/ee/RoundsCount";
+import RecentNews from "../components/ee/RecentNews";
+import useRounds from "../hooks/useEERounds";
 
 export default function Dashboard() {
   const [program, setProgram] = useState("Canadian Experience Class");
@@ -23,7 +23,7 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
-  <div className="space-y-6">
+    <div className="space-y-6">
     {/* Top Section */}
     <LatestDrawCard />
     <Filters
