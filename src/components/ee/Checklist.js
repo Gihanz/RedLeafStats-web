@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import {
   getChecklist,
   addChecklistItem,
   updateChecklistItem,
   deleteChecklistItem,
-} from "../lib/firestore";
+} from "../../lib/firestore";
 import toast from "react-hot-toast";
 import { Trash2 } from "lucide-react";
 

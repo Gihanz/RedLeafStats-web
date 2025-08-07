@@ -25,7 +25,7 @@ export default function Login() {
   // Redirect if already logged in
   useEffect(() => {
     if (user) {
-      navigate("/dashboard");
+      navigate("/dashboard_ee");
     }
   }, [user, navigate]);
 
@@ -38,7 +38,7 @@ export default function Login() {
       await signInWithEmailAndPassword(auth, email, password);
       setIsSuccess(true);
       setMessage("Login successful! Redirecting...");
-      setTimeout(() => navigate("/dashboard"), 1000);
+      setTimeout(() => navigate("/dashboard_ee"), 1000);
     } catch (error) {
       if (error.code === "auth/user-not-found") {
         setMessage("No account found with this email.");
@@ -60,7 +60,7 @@ export default function Login() {
       await signInAnonymously(auth);
       setIsSuccess(true);
       setMessage("Logged in as Guest! Redirecting...");
-      setTimeout(() => navigate("/dashboard"), 1000);
+      setTimeout(() => navigate("/dashboard_ee"), 1000);
     } catch {
       setMessage("Guest login failed. Please try again.");
     } finally {
@@ -76,7 +76,7 @@ export default function Login() {
       await signInWithPopup(auth, new GoogleAuthProvider());
       setIsSuccess(true);
       setMessage("Google login successful! Redirecting...");
-      setTimeout(() => navigate("/dashboard"), 1000);
+      setTimeout(() => navigate("/dashboard_ee"), 1000);
     } catch {
       setMessage("Google login failed. Please try again.");
     } finally {

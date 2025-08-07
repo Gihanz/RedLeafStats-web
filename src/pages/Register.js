@@ -45,7 +45,7 @@ export default function Register() {
 
       toast.dismiss();
       toast.success("Registered and logged in!");
-      navigate("/dashboard");
+      navigate("/dashboard_ee");
     } catch (error) {
       toast.dismiss();
       toast.error(error.message);

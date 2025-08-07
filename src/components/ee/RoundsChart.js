@@ -9,7 +9,7 @@ import {
   Legend,
 } from "recharts";
 import { useState, useRef } from "react";
-import useRounds from "../hooks/useRounds";
+import useRounds from "../../hooks/useEERounds";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 

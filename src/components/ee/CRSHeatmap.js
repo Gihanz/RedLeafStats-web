@@ -1,7 +1,6 @@
 import React, { useMemo, useRef, useEffect, useState } from "react";
-import useRounds from "../hooks/useRounds";
+import useRounds from "../../hooks/useEERounds";
 import ReactECharts from "echarts-for-react";
-import * as echarts from 'echarts'; // Stable version of ECharts
 
 const CRS_FIELDS = [
   { key: "dd17", range: "0-300" },
@@ -28,61 +27,51 @@ export default function CRSHeatmapChart({ program = "All", range = "1y" }) {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const checkDark = () => setIsDark(document.documentElement.classList.contains("dark"));
+      const checkDark = () =>
+        setIsDark(document.documentElement.classList.contains("dark"));
       checkDark();
 
       const observer = new MutationObserver(checkDark);
-      observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["class"],
+      });
 
       return () => observer.disconnect();
     }
   }, []);
 
-  // Filter rounds data to only include dates after "2022-01-19"
   const filteredRounds = useMemo(() => {
     const cutoffDate = new Date("2022-01-18");
-
-    return rounds.filter((r) => {
-      const drawDate = new Date(r.drawDate);
-      return drawDate > cutoffDate; // Filter for dates after 2022-01-19
-    });
+    return rounds.filter((r) => new Date(r.drawDate) > cutoffDate);
   }, [rounds]);
 
   const heatmapData = useMemo(() => {
-    const filtered = filteredRounds.sort((a, b) => new Date(a.drawDate) - new Date(b.drawDate));
-
-    const dates = filtered.map((r) => r.drawDate);
-
-    const rows = CRS_FIELDS.map((row, y) => {
-      const values = filtered.map((round, x) => {
-        const raw = round[row.key];
+    const sorted = filteredRounds.sort(
+      (a, b) => new Date(a.drawDate) - new Date(b.drawDate)
+    );
+    const dates = sorted.map((r) => r.drawDate);
+    const rows = CRS_FIELDS.map((field, y) => {
+      return sorted.map((round, x) => {
+        const raw = round[field.key];
         const value = raw ? Number(String(raw).replace(/,/g, "")) : 0;
-        return [x, y, value];
+        return [x, y, value === 0 ? "-" : value];
       });
-      return values;
     });
-
     return {
       dates,
-      ranges: CRS_FIELDS.map((r) => r.range),
+      ranges: CRS_FIELDS.map((f) => f.range),
       data: rows.flat(),
     };
   }, [filteredRounds]);
 
-  // Calculate trend line data for CRS ranges
-  const trendData = CRS_FIELDS.map((row, y) => {
-    const sum = filteredRounds.reduce((acc, round) => {
-      const value = round[row.key];
-      return acc + (value ? Number(String(value).replace(/,/g, "")) : 0);
-    }, 0);
-    return [y, sum];
-  });
-
   const options = useMemo(() => {
     return {
+      backgroundColor: isDark ? "#111827" : "#ffffff",
       tooltip: {
         position: "top",
         formatter: (params) => {
+          if (!params.data) return "";
           const [x, y, value] = params.data;
           const date = heatmapData.dates[x];
           const range = heatmapData.ranges[y];
@@ -90,35 +79,40 @@ export default function CRSHeatmapChart({ program = "All", range = "1y" }) {
             <div>
               <strong>Date:</strong> ${date}<br/>
               <strong>CRS Range:</strong> ${range}<br/>
-              <strong>Applicants:</strong> ${value}
-            </div>
-          `;
+              <strong>Applicants:</strong> ${value === "-" ? 0 : value}
+            </div>`;
         },
-        backgroundColor: isDark ? "#1f2937" : "#fff",
-        borderColor: isDark ? "#4b5563" : "#e5e7eb",
-        textStyle: { color: isDark ? "#f9fafb" : "#111827" },
       },
-      grid: { top: 50, left: 80, right: 30, bottom: 120 }, // Adjust bottom for better label visibility
+      grid: {
+        top: 50,
+        left: 80,
+        right: 30,
+        bottom: 120,
+      },
       xAxis: {
         type: "category",
         data: heatmapData.dates,
-        axisLabel: { rotate: 90, fontSize: 10, interval: 0 }, // Force all labels to show, even at a high density
         splitArea: { show: true },
-        axisLine: { lineStyle: { color: isDark ? "#9ca3af" : "#374151" } },
-        axisTick: {
-          alignWithLabel: true, // Ensures the last tick is aligned correctly
+        axisLabel: {
+          rotate: 90,
+          fontSize: 10,
+          interval: 0,
         },
       },
       yAxis: {
         name: "No of Applicants",
-        nameLocation: 'middle',
+        nameLocation: "middle",
         nameRotate: 90,
         nameGap: 65,
         type: "category",
         data: heatmapData.ranges,
         axisLabel: { fontSize: 10 },
         splitArea: { show: true },
-        axisLine: { lineStyle: { color: isDark ? "#9ca3af" : "#374151" } },
+        axisLine: {
+          lineStyle: {
+            color: isDark ? "#9ca3af" : "#374151",
+          },
+        },
       },
       visualMap: {
         min: 0,
@@ -128,58 +122,48 @@ export default function CRSHeatmapChart({ program = "All", range = "1y" }) {
         left: "center",
         bottom: "0",
         inRange: {
-          color: isDark
-            ? ["#a3c4e1", "#4f6b8b", "#26374a"] // Light blue to dark blue-gray
-            : ["#a3c4e1", "#4f6b8b", "#26374a"], // Light blue to dark blue-gray for light mode as well
+          color: ["#a3c4e1", "#4f6b8b", "#26374a"],
         },
-        textStyle: { color: isDark ? "#f3f4f6" : "#111827" },
+        textStyle: {
+          color: isDark ? "#f3f4f6" : "#111827",
+        },
       },
       series: [
         {
           name: "Applicants",
           type: "heatmap",
           data: heatmapData.data,
-          label: { show: false },
-          emphasis: {
-            itemStyle: { borderColor: "#fff", borderWidth: 1 },
+          label: {
+            show: true,
+            color: isDark ? "#f3f4f6" : "#f3f4f6",
           },
-        },
-        {
-          name: "Trend Line",
-          type: "line",
-          data: trendData,
-          smooth: true,
-          symbol: "none",
-          lineStyle: { color: isDark ? "#fbbf24" : "#f59e0b", width: 3 },
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowColor: "rgba(0, 0, 0, 0.5)",
+            },
+          },
         },
       ],
     };
-  }, [heatmapData, trendData, isDark]);
+  }, [heatmapData, isDark]);
 
-  // Export functions
   const exportChartToPNG = () => {
     if (chartRef.current) {
       const chartInstance = chartRef.current.getEchartsInstance();
       const dataUrl = chartInstance.getDataURL({
-        type: 'png',
-        backgroundColor: isDark ? '#1f2937' : '#fff',
+        type: "png",
+        backgroundColor: isDark ? "#111827" : "#ffffff", 
       });
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = dataUrl;
-      link.download = 'heatmap.png';
+      link.download = "heatmap.png";
       link.click();
     }
   };
 
   const exportChartToPDF = () => {
-    if (chartRef.current) {
-      const chartInstance = chartRef.current.getEchartsInstance();
-      const dataUrl = chartInstance.getDataURL({
-        type: 'pdf',
-        backgroundColor: isDark ? '#1f2937' : '#fff',
-      });
-      // You can integrate the dataUrl into PDF exporting library or custom handling
-    }
+    alert("PDF export not supported natively, please export PNG instead.");
   };
 
   return (
@@ -187,8 +171,8 @@ export default function CRSHeatmapChart({ program = "All", range = "1y" }) {
       <h2 className="text-xl font-heading font-bold">
         📊 Applicants in Each CRS Range
       </h2>
-      {/* Export buttons */}
-      <div className="flex justify-end gap-4">
+
+      <div className="flex justify-end gap-4 mb-4">
         <button
           className="bg-[#26374a] hover:opacity-90 text-white px-3 py-1 text-sm"
           onClick={exportChartToPNG}
@@ -202,12 +186,16 @@ export default function CRSHeatmapChart({ program = "All", range = "1y" }) {
           Export PDF
         </button>
       </div>
+
       <div className="w-full h-[650px]">
         {heatmapData.data.length > 0 && (
           <ReactECharts
             option={options}
             style={{ height: "100%", width: "100%" }}
             ref={chartRef}
+            notMerge={true}
+            lazyUpdate={true}
+            theme={isDark ? "dark" : "light"}
           />
         )}
       </div>
