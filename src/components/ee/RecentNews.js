@@ -52,7 +52,8 @@ export default function RecentNews() {
             background-color: #f0f8ff;
             border-left: 4px solid #26374a;
             color: #000;
-            font-size: 16px;
+            font-size: 15px;
+            font-weight: 400;
             padding: 1px 10px;
             border-radius: 4px;
             margin-left: 10px;
