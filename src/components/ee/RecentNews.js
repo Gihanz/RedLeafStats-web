@@ -66,7 +66,7 @@ export default function RecentNews() {
         `}
       </style>
       <div
-        className="prose dark:prose-invert max-h-[500px] overflow-y-auto w-full max-w-none"
+        className="prose dark:prose-invert max-h-[500px] overflow-y-auto w-full max-w-none pl-5"
         dangerouslySetInnerHTML={{ __html: htmlContent }}
       />
     </div>
