@@ -55,9 +55,13 @@ export default function Register() {
   };
 
   return (
+    <div
+      className="min-h-screen flex md:items-center justify-center bg-cover bg-center bg-no-repeat bg-fixed"
+      style={{ backgroundImage: "url('/loginBackground.jpg')" }}
+    >
     <form
       onSubmit={handleRegister}
-      className="max-w-sm mx-auto mt-2 sm:mt-20 space-y-4 font-body bg-white dark:bg-gray-900 p-6 shadow-md"
+      className="max-w-sm mx-auto mt-2 space-y-4 font-body bg-white dark:bg-gray-900 p-6 shadow-md"
     >
       <h1 className="text-2xl font-heading font-bold text-center text-[#26374a] dark:text-white">
         Register
@@ -187,5 +191,6 @@ export default function Register() {
       </div>
 
     </form>
+    </div>
   );
 }

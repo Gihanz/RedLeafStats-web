@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import LoadingButton from "../components/LoadingButton";
 import ResetPasswordModal from "../components/ResetPasswordModal";
 import { useAuth } from "../contexts/AuthContext";
+import LatestDrawWidget from "../components/LatestDrawWidget";
+import RecentDrawsWidget from "../components/RecentDrawsWidget";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -85,10 +87,19 @@ export default function Login() {
   };
 
   return (
-    <>
+    <div
+      className="min-h-screen flex md:items-center justify-center bg-cover bg-center bg-no-repeat bg-fixed"
+      style={{ backgroundImage: "url('/loginBackground.jpg')" }}
+    >
+      <div className="relative z-10 flex flex-col md:flex-row items-start gap-8 w-full max-w-6xl">
+        {/* Left: LatestDrawCard */}
+        <div className="hidden md:flex md:flex-col md:w-[40%] gap-6 p-2">
+          <LatestDrawWidget />
+          <RecentDrawsWidget />
+        </div>
       <form
         onSubmit={handleLogin}
-        className="max-w-sm mx-auto mt-2 sm:mt-20 space-y-4 font-body bg-white dark:bg-gray-900 p-6 shadow-md"
+        className="max-w-sm mx-auto mt-2 space-y-4 font-body bg-white dark:bg-gray-900 p-6 shadow-md"
       >
         <h1 className="text-2xl font-heading font-bold text-center text-[#26374a] dark:text-white">
           Login
@@ -199,11 +210,11 @@ export default function Login() {
           RedLeaf Stats is a powerful web app that visualizes Canadian Express Entry immigration data, helping users track CRS score trends, analyze draw statistics, and stay updated with official IRCC news. The app supports features like dynamic chart filtering, CRS heatmaps, personal checklists, and automatic email alerts when new draws occur.
         </div>
       </form>
-
+    </div>
       <ResetPasswordModal
         isOpen={showResetModal}
         onClose={() => setShowResetModal(false)}
       />
-    </>
+      </div>
   );
 }
